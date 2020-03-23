@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<litepal>
+    <dbname value="Parking" />
+    <version value="3" />
+
+    <list>
+        <mapping class="com.demo.parking.db.CarPark" />
+        <mapping class="com.demo.parking.db.Parking" />
+        <mapping class="com.demo.parking.db.User" />
+        <mapping class="com.demo.parking.db.Appointment" />
+        <mapping class="com.demo.parking.db.Collection" />
+        <mapping class="com.demo.parking.db.Comment" />
+        <mapping class="com.demo.parking.db.Time" />
+    </list>
+</litepal>
