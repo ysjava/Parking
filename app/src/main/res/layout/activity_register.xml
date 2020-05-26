@@ -185,6 +185,14 @@
             android:paddingEnd="10dp"
             android:text="男" />
 
+        <CheckBox
+            android:id="@+id/cb_admin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="管理员账号" />
+
         <Button
             android:id="@+id/btn_submit"
             android:layout_width="match_parent"

@@ -90,4 +90,12 @@
         app:layout_constraintStart_toStartOf="@id/password"
         app:layout_constraintTop_toBottomOf="@id/tv_auto" />
 
+    <CheckBox
+        android:id="@+id/cb_admin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="管理员登陆"
+        tools:layout_editor_absoluteX="262dp"
+        tools:layout_editor_absoluteY="222dp" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

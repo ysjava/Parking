@@ -15,9 +15,14 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.baidu.location.BDAbstractLocationListener;
+import com.baidu.location.BDLocation;
+import com.baidu.location.LocationClient;
+import com.baidu.location.LocationClientOption;
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BitmapDescriptor;
 import com.baidu.mapapi.map.BitmapDescriptorFactory;
+import com.baidu.mapapi.map.MapPoi;
 import com.baidu.mapapi.map.MapStatusUpdate;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
@@ -25,10 +30,17 @@ import com.baidu.mapapi.map.Marker;
 import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.model.LatLng;
+import com.baidu.mapapi.search.core.SearchResult;
+import com.baidu.mapapi.search.geocode.GeoCodeResult;
+import com.baidu.mapapi.search.geocode.GeoCoder;
+import com.baidu.mapapi.search.geocode.OnGetGeoCoderResultListener;
+import com.baidu.mapapi.search.geocode.ReverseGeoCodeOption;
+import com.baidu.mapapi.search.geocode.ReverseGeoCodeResult;
 import com.demo.parking.db.Appointment;
 import com.demo.parking.db.CarPark;
 import com.demo.parking.db.Parking;
 import com.demo.parking.db.User;
+import com.demo.parking.ui.AdminActivity;
 import com.demo.parking.ui.CollectActivity;
 import com.demo.parking.ui.ShareActivity;
 import com.demo.parking.ui.login.LoginActivity;
@@ -45,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
     private BaiduMap mBaiduMap;
     private List<CarPark> mCarParkList;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
         TextView tvTest = findViewById(R.id.tv_options);
         TextView tvList = findViewById(R.id.tv_list);
 
+
         initLocalData();
 
         tvList.setOnClickListener(new View.OnClickListener() {
@@ -63,12 +77,17 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
         tvTest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
 //                Log.e("YUN", "创建数据 : " + carPark.toString());
-                final String[] items = new String[]{"分享车位", "分享我的位置", "我的收藏", "个人信息", "修改密码", "注销登陆", "退出"};
+                final String[] items;
+                if (!Account.getUser().isAdmin().equals("1")) {
+                    items = new String[]{"分享车位", "分享我的位置", "我的收藏", "个人信息", "修改密码", "注销登陆", "退出"};
+                } else
+                    items = new String[]{"分享车位", "分享我的位置", "我的收藏", "个人信息", "修改密码", "注销登陆", "退出", "管理员"};
                 AlertDialog alertDialog3 = new AlertDialog.Builder(MainActivity.this)
                         .setIcon(R.mipmap.ic_launcher)
                         .setItems(items, new DialogInterface.OnClickListener() {//添加列表
@@ -97,7 +116,10 @@ public class MainActivity extends AppCompatActivity {
                                         startActivity(intent);
                                         break;
                                     case 6:
-                                        System.exit(1);
+                                        finish();
+                                        break;
+                                    case 7:
+                                        startActivity(new Intent(MainActivity.this, AdminActivity.class));
                                         break;
 
                                 }
@@ -127,7 +149,6 @@ public class MainActivity extends AppCompatActivity {
         mBaiduMap.setOnMarkerClickListener(new BaiduMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
-                Log.e("YSH", "地址 :经度" + marker.getPosition().longitude + " , 纬度 :" + marker.getPosition().latitude);
                 Intent intent = new Intent(MainActivity.this, CarParkActivity.class);
                 intent.putExtra("id", marker.getExtraInfo());
                 startActivity(intent);
@@ -185,7 +206,7 @@ public class MainActivity extends AppCompatActivity {
         parking2.setCarPark(carPark);
         parking2.setNumber("002");
         parking2.save();
-
+        carPark.save();
     }
 
     private void navigateTo() {
@@ -277,6 +298,19 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onRestart() {
         super.onRestart();
-        initOverlay();
+        initData();
+        if (mCarParkList == null)
+            return;
+        mBaiduMap.clear();
+        // 把查到的停车场标记到地图上
+        for (CarPark carPark : mCarParkList) {
+            LatLng ll = new LatLng(carPark.getLatitude(), carPark.getLongitude());
+            OverlayOptions oo = new MarkerOptions().position(ll).icon(getBd(carPark));
+            Bundle bundle = new Bundle();
+            bundle.putString("id", carPark.getId());
+            mBaiduMap.addOverlay(oo).setExtraInfo(bundle);
+        }
     }
+
+
 }

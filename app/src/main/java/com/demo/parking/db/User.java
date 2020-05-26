@@ -18,6 +18,7 @@ public class User extends LitePalSupport {
     private String password;
     private String birthday;
     private String gender;
+    private String admin;
     //一个用户可以有多个预约
     private List<Appointment> appointments = new ArrayList<>();
     //收藏
@@ -104,6 +105,14 @@ public class User extends LitePalSupport {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public String isAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(String admin) {
+        this.admin = admin;
     }
 
     @Override

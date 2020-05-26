@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -26,6 +27,7 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText etConfirm;
     private EditText etPhone;
     private EditText etBirthday;
+    private CheckBox checkBox;
 
     private Button sexBtn;
 
@@ -44,6 +46,7 @@ public class RegisterActivity extends AppCompatActivity {
         etConfirm = findViewById(R.id.et_confirm);
         etPhone = findViewById(R.id.et_phone);
         etBirthday = findViewById(R.id.et_birthday);
+        checkBox = findViewById(R.id.cb_admin);
 
         sexBtn = findViewById(R.id.btn_sex);
         Button submitBtn = findViewById(R.id.btn_submit);
@@ -82,9 +85,13 @@ public class RegisterActivity extends AppCompatActivity {
                 user.setPhone(etPhone.getText().toString());
                 user.setBirthday(etBirthday.getText().toString());
                 user.setGender(sexBtn.getText().toString());
+                if (checkBox.isChecked())
+                    user.setAdmin("1");
+                else
+                    user.setAdmin("0");
                 user.save();
-                User u = LitePal.find(User.class,user.getId());
-                Log.e("TAB","注册成功,"+u.toString());
+                User u = LitePal.find(User.class, user.getId());
+                Log.e("TAB", "注册成功," + u.toString());
                 finish();
             }
         });

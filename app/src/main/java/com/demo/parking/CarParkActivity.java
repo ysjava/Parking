@@ -6,6 +6,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -108,6 +110,8 @@ public class CarParkActivity extends AppCompatActivity {
 
         pic = findViewById(R.id.iv_pic);
         editText = findViewById(R.id.et_comment);
+
+
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -263,7 +267,9 @@ public class CarParkActivity extends AppCompatActivity {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 Toast.makeText(CarParkActivity.this, "点的是：" + items[i], Toast.LENGTH_SHORT).show();
-                                parking2 = parking = LitePal.where("number = ?", items[i]).findFirst(Parking.class, true);
+                                parking2 = parking = LitePal
+                                        .where("number = ? and parkId = ?", items[i], carPark.getId())
+                                        .findFirst(Parking.class, true);
                                 btn2.setText(parking.getNumber());
                             }
                         })
@@ -351,7 +357,12 @@ public class CarParkActivity extends AppCompatActivity {
         desc.setText(String.format("介绍 : %s", carPark.getDesc()));
 
         pic.setImageResource(carPark.getPic());
-
+        if (TextUtils.isEmpty(carPark.getPicStr())) {
+            pic.setImageResource(carPark.getPic());
+        } else {
+            Bitmap bitmap = BitmapFactory.decodeFile(carPark.getPicStr());
+            pic.setImageBitmap(bitmap);
+        }
         Time t = null;
         if (parking2 != null)
             t = LitePal.where("parkingId = ?", String.valueOf(parking2.getId())).findFirst(Time.class);

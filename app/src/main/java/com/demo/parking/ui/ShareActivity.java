@@ -139,8 +139,6 @@ public class ShareActivity extends AppCompatActivity {
             case 1:
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     openAlbum();
-                } else {
-
                 }
                 break;
         }

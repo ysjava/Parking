@@ -10,6 +10,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -37,20 +38,27 @@ public class LoginActivity extends AppCompatActivity {
         final EditText passwordEditText = findViewById(R.id.password);
         final Button loginButton = findViewById(R.id.btn_login);
         final Button registerButton = findViewById(R.id.btn_register);
+        final CheckBox checkBox = findViewById(R.id.cb_admin);
         if (load != null)
             if (load.equals("1"))
                 usernameEditText.setText(Account.getUser().getName());
 
-                loginButton.setOnClickListener(new View.OnClickListener() {
+        loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (TextUtils.isEmpty(usernameEditText.getText().toString()) || TextUtils.isEmpty(passwordEditText.getText().toString())) {
                     Toast.makeText(LoginActivity.this, "账号或密码不能为空", Toast.LENGTH_SHORT).show();
                     return;
                 }
+                User user;
+                if (checkBox.isChecked()) {//管理员登陆
+                    user = LitePal.where("name = ? and password = ? and admin = ?", usernameEditText.getText().toString(),
+                            passwordEditText.getText().toString(), "1").findFirst(User.class);
+                } else {
+                    user = LitePal.where("name = ? and password = ? and admin =?", usernameEditText.getText().toString(),
+                            passwordEditText.getText().toString(), "0").findFirst(User.class);
+                }
 
-                User user = LitePal.where("name = ? and password = ?", usernameEditText.getText().toString(),
-                        passwordEditText.getText().toString()).findFirst(User.class);
 
                 if (user == null) {
                     Toast.makeText(LoginActivity.this, "账号或密码错误", Toast.LENGTH_SHORT).show();
@@ -59,7 +67,7 @@ public class LoginActivity extends AppCompatActivity {
                 //登陆  保存到持久化文件
                 Account.login(user);
                 startActivity(new Intent(LoginActivity.this, MainActivity.class));
-
+                finish();
             }
         });
 

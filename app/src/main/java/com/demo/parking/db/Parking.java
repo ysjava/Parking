@@ -12,10 +12,18 @@ public class Parking extends LitePalSupport {
     private String number;//编号
     private double price;
     private boolean occupy;
-
+    private String parkId;
     private CarPark park;
     private User user;
     private Appointment appointment;
+
+    public String getParkId() {
+        return parkId;
+    }
+
+    public void setParkId(String parkId) {
+        this.parkId = parkId;
+    }
 
     public long getId() {
         return id;
@@ -46,6 +54,7 @@ public class Parking extends LitePalSupport {
     }
 
     public void setCarPark(CarPark carPark) {
+        this.parkId = carPark.getId();
         this.park = carPark;
     }
 
@@ -81,12 +90,5 @@ public class Parking extends LitePalSupport {
         this.appointment = appointment;
     }
 
-    @Override
-    public String toString() {
-        return "Parking{" +
-                "park=" + park +
-                ", user=" + user +
-                ", appointment=" + appointment +
-                '}';
-    }
+
 }

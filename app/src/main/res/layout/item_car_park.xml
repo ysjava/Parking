@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_marginBottom="6dp"
+    android:layout_marginStart="2dp"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/iv_pic"
+        android:layout_width="148dp"
+        android:layout_height="100dp"
+        android:src="@color/colorPrimary" />
+
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="158dp"
+        android:singleLine="true"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="6dp"
+        android:layout_marginTop="6dp"
+        android:layout_toEndOf="@id/iv_pic"
+        android:text="停车场名称"
+        android:textSize="22sp" />
+
+    <TextView
+        android:id="@+id/tv_desc"
+        android:layout_width="158dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_name"
+        android:singleLine="true"
+        android:layout_alignBottom="@id/iv_pic"
+        android:layout_marginStart="6dp"
+        android:layout_toEndOf="@id/iv_pic"
+        android:ellipsize="end"
+        android:gravity="center_vertical"
+        android:text="停车场描述停车场描述"
+        android:textSize="18sp" />
+
+    <Button
+        android:id="@+id/btn_delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:text="删除" />
+
+    <Button
+        android:id="@+id/btn_update"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btn_delete"
+        android:layout_alignParentEnd="true"
+        android:text="更新" />
+
+</RelativeLayout>

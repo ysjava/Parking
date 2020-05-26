@@ -19,8 +19,10 @@ public class SpalshActivity extends AppCompatActivity {
         Account.load(getApplicationContext());
         if (!Account.isLogin()) {
             startActivity(new Intent(SpalshActivity.this, LoginActivity.class));
+            finish();
         }else {
             startActivity(new Intent(SpalshActivity.this, MainActivity.class));
+            finish();
         }
     }
 }

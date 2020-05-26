@@ -16,6 +16,7 @@ public class CarPark extends LitePalSupport {
     private String desc;
     private String address;
     private int pic;
+    private String picStr;
     private double longitude;//经度
     private double latitude;//维度
 
@@ -60,14 +61,6 @@ public class CarPark extends LitePalSupport {
         this.address = address;
     }
 
-    public String getCid() {
-        return cid;
-    }
-
-    public void setCid(String cid) {
-        this.cid = cid;
-    }
-
     public int getPic() {
         return pic;
     }
@@ -86,6 +79,14 @@ public class CarPark extends LitePalSupport {
 
     public List<Collection> getCollections() {
         return collections;
+    }
+
+    public String getPicStr() {
+        return picStr;
+    }
+
+    public void setPicStr(String picStr) {
+        this.picStr = picStr;
     }
 
     public void setAppointments(List<Appointment> appointments) {
@@ -128,13 +129,5 @@ public class CarPark extends LitePalSupport {
         this.latitude = latitude;
     }
 
-    @Override
-    public String toString() {
-        return "CarPark{" +
 
-                "cid='" + cid + '\'' +
-                ", name='" + name + '\'' +
-                ", parkings=" + parkings +
-                '}';
-    }
 }
